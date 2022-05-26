@@ -3,6 +3,7 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const { authToken } = require('./middleware/token');
 const db = require('./db/connection');
+const { set_cache, get_cache } = require('./cache/connection');
 
 const app = express();
 app.use(express.json());
@@ -22,6 +23,7 @@ app.post('/signin', (req, res) => {
     res.status(201).send(accessToken);
   } else {
     res.status(401).send('Login Failed');
+    set_cache('김코딩', 'login');
   }
 });
 
@@ -31,6 +33,9 @@ app.get('/', (req, res) => {
 
 console.log('Hello World');
 app.get('/status', authToken, (req, res) => {
+  if (get_cache !== 'login') { 
+    return res.status(403).send({ isLogin: false, isConnectedToDatabase: true })
+  }
   if (req.username) { // jwt 토큰이 존재할 경우 데이터베이스 연결 여부 조회
     db.query('use test', (err) => {
       if (err) {
