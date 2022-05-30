@@ -8,10 +8,9 @@ const createIndex = async function(indexName){
 }
 
 // insert data in elasticsearch document
-const insertDoc = async function(indexName, _id, data){
+const insertDoc = async function(indexName, data){
     return await client.index({
         index: indexName,
-        id: _id,
         body: data
     });
 }
@@ -31,31 +30,31 @@ module.exports={
 }
 
 // create index test 
-async function test(){
+async function makeIndex(){
     try {
-        const resp = await createIndex('blog');
+        const resp = await createIndex('log');
         console.log(resp);
     } catch (e) {
         console.log(e);
     }
 }
+
+makeIndex();
 
 // insert data test
-async function test2(){
-    const data = {
-        title: "Learn elastic search",
-        levels: "info",
-        body: `Lot of content here...
-                .... article`
-    }
-    try {
-        const resp = await insertDoc('blog', 1, data);
-        console.log(resp);
-    } catch (e) {
-        console.log(e);
-    }
-}
+// async function test2(){
+//     const data = {
+//         title: "Learn elastic search",
+//         levels: "info",
+//         body: `Lot of content here...
+//                 .... article`
+//     }
+//     try {
+//         const resp = await insertDoc('log', data);
+//         console.log(resp);
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
 
 
-test();
-test2();
