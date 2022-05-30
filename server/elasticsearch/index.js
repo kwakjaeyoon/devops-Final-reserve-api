@@ -39,7 +39,7 @@ async function makeIndex(){
     }
 }
 
-// makeIndex();
+makeIndex();
 
 // insert data test
 // async function test2(){

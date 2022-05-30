@@ -6,12 +6,13 @@ const es = require('../elasticsearch/index');
 
 
 router.post('/', function (req, res) {
-    let sql = 'INSERT INTO reserve (id, name, etc) VALUES (3,"kwak","example");';
+    let obj=req.body;
+    let sql = `INSERT INTO reserve (id, name, etc) VALUES (${obj.id},"${obj.name}","${obj.etc}");`;
 
     const data = {
-        title: "Create Data test",
+        title: "Create Reserve Information",
         levels: "INFO",
-        body: `Create Data is Success!`
+        body: `${JSON.stringify(req.body)}`
     };
     const error = {
         title: "Create Data failed test",
@@ -85,12 +86,13 @@ router.get('/', function(req, res){
 
 router.patch('/:id', function(req, res){
     let id = req.params.id;
-    let sql = `UPDATE reserve SET name='kim' WHERE id=${id};`;
+    let obj = req.body;
+    let sql = `UPDATE reserve SET id=${obj.id}, name=${obj.name}, etc=${obj.etc} WHERE id=${id};`;
 
     const data = {
         title: "Update Data",
         levels: "INFO",
-        body: `Update Data id=${id} is Success!`
+        body: `${JSON.stringify(obj)}`
     };
     const error = {
         title: "Update Data failed",
