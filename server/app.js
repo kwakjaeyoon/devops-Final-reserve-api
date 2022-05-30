@@ -3,7 +3,7 @@ const cors = require('cors');
 // const jwt = require('jsonwebtoken');
 // const { authToken } = require('./middleware/token');
 const db = require('./db/connection');
-// const { set_cache, get_cache } = require('./cache/connection');
+const { set_cache, get_cache } = require('./cache/connection');
 const indexRouter = require('./routes/index');
 const reserveRouter = require('./routes/reserve');
 

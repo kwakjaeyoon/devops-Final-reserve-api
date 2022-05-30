@@ -1,5 +1,5 @@
 const express = require('express');
-// const { get_cache, set_cache } = require('../cache/connection');
+const { get_cache, set_cache } = require('../cache/connection');
 const db = require('../db/connection');
 const router = express.Router();
 const es = require('../elasticsearch/index');
@@ -36,51 +36,36 @@ router.post('/', function (req, res) {
 
 
 
-router.get('/', function(req, res){
-    // let id = req.params.id;
-    // const getCache = get_cache(id);
-    // if(getCache === undefined || getCache === null){
-    //     let sql = `SELECT *FROM table_name WHERE id=${id};`;
-    //     db.query(sql, function (err,result){
-    //         if (err) throw(err);
-    //         console.log('Find data Success!', result);
-    //         res.status(200).send(result);
-    //     });
-    //     set_cache(id, JSON.stringify(sql));
-    // }else{
-    //     res.status(200).send(getCache);
-    // }
-
-    let sql = `SELECT *FROM reserve WHERE id=${id};`;
+router.get('/:id', function(req, res){
+    let id = req.params.id;
+    const getCache = get_cache(id);
+    console.log(getCache);
     const data = {
         title: "Find Data",
         levels: "INFO",
-        body: `Find Data  is Success!`
+        body: `Find Data is Success!`
+    };
+    const error = {
+        title: "Find Data Error",
+        levels: "ERROR",
+        body: `Find Data is failed...`
     }
-    db.query(sql, function (err,result){
-        if (err) console.log(err);
-        console.log('Find data Success!', result);
-        res.status(200).send(result);
-        const resp = es.insertDoc('log', data);
-    });
-
-
-
-
-    
-
-    // try {
-    //     const resp = await es.insertDoc('log', data);
-    //     console.log(resp);
-    // } catch (e) {
-    //     const err = {
-    //         title: "Find Data failed",
-    //         levels: "ERROR",
-    //         body: `id=${id} failed... ${e}`
-    //     }
-    //     const resp = await es.insertDoc('log', err);
-    //     console.log(e);
-    // }
+    if(getCache === undefined || getCache === null){
+        let sql = `SELECT *FROM reserve WHERE id=${id};`;
+        db.query(sql, function (err,result){
+            if (err) {
+                const resp = es.insertDoc('log', error);
+                console.log(err);
+            }else{
+                const resp = es.insertDoc('log', data);
+                console.log('Find data Success!', result);
+                res.status(200).send(result);
+            }
+        });
+        set_cache(id, JSON.stringify(sql));
+    }else{
+        res.status(200).send(getCache);
+    }
 });
 
 
