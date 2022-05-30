@@ -1,36 +1,35 @@
 const express = require('express');
 // const { get_cache, set_cache } = require('../cache/connection');
-// const con = require('../db/connection');
+const db = require('../db/connection');
 const router = express.Router();
 const es = require('../elasticsearch/index');
 
-// con.connect();
 
 router.post('/', function (req, res) {
-    // let sql = `INSERT INTO table_name (id, etc) VALUES ('1','example');`;
+    let sql = 'INSERT INTO reserve (id, name, etc) VALUES (3,"kwak","example");';
 
     const data = {
-        title: "Create Data",
+        title: "Create Data test",
         levels: "INFO",
-        body: `Create Data id=${id} is Success!`
+        body: `Create Data is Success!`
     };
     const error = {
-        title: "Create Data failed",
+        title: "Create Data failed test",
         levels: "ERROR",
-        body: `id=${id} failed... `
+        body: `create Data is failed... `
     };
 
-    const resp = es.insertDoc('log', data);
+    //es.insertDoc('log', data);
 
-    // con.query(sql, function (err,result){
-    //     if (err) {
-    //         await es.insertDoc('log', error);
-    //         console.log(err);
-    //     }else{
-    //         console.log('insert data Success!', result);
-    //         await es.insertDoc('log', data);
-    //     }
-    // });
+    db.query(sql, function (err,result){
+        if (err) {
+            const resp = es.insertDoc('log', error);
+            console.log(err);
+        }else{
+            const resp = es.insertDoc('log', data);
+            console.log('insert data Success!');
+        }
+    });
 
 });
 
@@ -41,7 +40,7 @@ router.get('/', function(req, res){
     // const getCache = get_cache(id);
     // if(getCache === undefined || getCache === null){
     //     let sql = `SELECT *FROM table_name WHERE id=${id};`;
-    //     con.query(sql, function (err,result){
+    //     db.query(sql, function (err,result){
     //         if (err) throw(err);
     //         console.log('Find data Success!', result);
     //         res.status(200).send(result);
@@ -51,14 +50,23 @@ router.get('/', function(req, res){
     //     res.status(200).send(getCache);
     // }
 
+    let sql = `SELECT *FROM reserve WHERE id=${id};`;
     const data = {
         title: "Find Data",
         levels: "INFO",
         body: `Find Data  is Success!`
     }
+    db.query(sql, function (err,result){
+        if (err) console.log(err);
+        console.log('Find data Success!', result);
+        res.status(200).send(result);
+        const resp = es.insertDoc('log', data);
+    });
 
 
-    const resp = es.insertDoc('log', data);
+
+
+    
 
     // try {
     //     const resp = await es.insertDoc('log', data);
@@ -77,7 +85,7 @@ router.get('/', function(req, res){
 
 router.patch('/:id', function(req, res){
     let id = req.params.id;
-    // let sql = `UPDATE table_name SET field1=data1, field2=data2 WHERE id=${id};`;
+    let sql = `UPDATE reserve SET name='kim' WHERE id=${id};`;
 
     const data = {
         title: "Update Data",
@@ -87,36 +95,48 @@ router.patch('/:id', function(req, res){
     const error = {
         title: "Update Data failed",
         levels: "ERROR",
-        body: `id=${id} failed... `
+        body: `Update id=${id} is failed... `
     };
-    const resp = es.insertDoc('log', data);
 
-    // con.query(sql, function (err,result){
-    //     if (err) {
-    //         await es.insertDoc('log', error);
-    //         console.log(err);
-    //     }else{
-    //         console.log('update data Success!', result);
-    //         await es.insertDoc('log', data);
-    //     }
-    // });
+    db.query(sql, function (err,result){
+        if (err) {
+            const resp = es.insertDoc('log', error);
+            console.log(err);
+        }else{
+            console.log('update data Success!');
+            const resp =  es.insertDoc('log', data);
+        }
+    });
 });
 
 router.delete('/:id', function(req, res){
-    // let id = req.params.id;
-    // let sql = `DELETE FROM tablename WHERE id=${id};`;
-    // con.query(sql, function (err,result){
-    //     if (err) throw(err);
-    //     console.log('delete data Success!', result);
-    // });
+    let id = req.params.id;
+    let sql = `DELETE FROM reserve WHERE id=${id};`;
+    db.query(sql, function (err,result){
+        if (err) console.log(err);
+        console.log('delete data Success!', result);
+    });
 
     const data = {
         title: "Delete Data",
         levels: "INFO",
         body: `Delete Data id=${id} is Success!`
-    }
+    };
+    const error = {
+        title: "Delete Data failed",
+        levels: "ERROR",
+        body: `Delete id=${id} is failed... `
+    };
     
-    const resp = es.insertDoc('log', data);
+    db.query(sql, function (err,result){
+        if (err) {
+            const resp = es.insertDoc('log', error);
+            console.log(err);
+        }else{
+            console.log('update data Success!');
+            const resp =  es.insertDoc('log', data);
+        }
+    });
 });
 
 

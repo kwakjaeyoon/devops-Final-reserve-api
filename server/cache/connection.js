@@ -20,7 +20,7 @@ module.exports = {
 
  set_cache: async ( key, value ) => {
   const result = await redis.set( key, value, (err, reply) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(reply);
   })
   console.log('Redis set Data', result)
@@ -29,7 +29,7 @@ module.exports = {
 
  get_cache: async ( key ) => {
   const result = await redis.get( key, (err, reply) => {
-      if (err) throw err;
+    if (err) console.log(err);
       console.log(reply);
   });
   console.log('Redis get Data', result)

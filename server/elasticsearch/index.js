@@ -30,7 +30,7 @@ module.exports={
 }
 
 // create index test 
-async function test(){
+async function makeIndex(){
     try {
         const resp = await createIndex('log');
         console.log(resp);
@@ -39,22 +39,22 @@ async function test(){
     }
 }
 
+// makeIndex();
+
 // insert data test
-async function test2(){
-    const data = {
-        title: "Learn elastic search",
-        levels: "info",
-        body: `Lot of content here...
-                .... article`
-    }
-    try {
-        const resp = await insertDoc('log', data);
-        console.log(resp);
-    } catch (e) {
-        console.log(e);
-    }
-}
+// async function test2(){
+//     const data = {
+//         title: "Learn elastic search",
+//         levels: "info",
+//         body: `Lot of content here...
+//                 .... article`
+//     }
+//     try {
+//         const resp = await insertDoc('log', data);
+//         console.log(resp);
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
 
 
-test();
-test2();
