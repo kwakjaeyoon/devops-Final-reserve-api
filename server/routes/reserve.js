@@ -1,5 +1,5 @@
 const express = require('express');
-const { get_cache, set_cache } = require('../cache/connection');
+const { redis, get_cache, set_cache } = require('../cache/connection');
 const db = require('../db/connection');
 const router = express.Router();
 const es = require('../elasticsearch/index');
@@ -35,34 +35,35 @@ router.post('/', function (req, res) {
 
 
 router.get('/', function(req, res){
-    const getCache = get_cache('name');
-    console.log(getCache);
-    const data = {
-        title: "Find Data",
-        levels: "INFO",
-        body: `Find Data is Success!`
-    };
-    const error = {
-        title: "Find Data Error",
-        levels: "ERROR",
-        body: `Find Data is failed...`
-    }
-    if(getCache === undefined || getCache === null){
-        let sql = `SELECT *FROM reserve;`;
-        db.query(sql, function (err,result){
-            if (err) {
-                const resp = es.insertDoc('log', error);
-                console.log(err);
-            }else{
-                const resp = es.insertDoc('log', data);
-                console.log('Find data Success!', result);
-                res.status(200).send(result);
-            }
-        });
-        set_cache(id, JSON.stringify(sql));
-    }else{
-        res.status(200).send(getCache);
-    }
+    redis.get('name', (err, cached) => {
+        const data = {
+            title: "Find Data",
+            levels: "INFO",
+            body: `Find Data is Success!`
+        };
+        const error = {
+            title: "Find Data Error",
+            levels: "ERROR",
+            body: `Find Data is failed...`
+        }
+        if(cached === undefined || cached === null){
+            let sql = `SELECT * FROM reserve;`;
+            db.query(sql, function (err,result){
+                if (err) {
+                    const resp = es.insertDoc('log', error);
+                    console.log(err);
+                }else{
+                    const resp = es.insertDoc('log', data);
+                    console.log('Find data Success!', result);
+                    res.status(200).send(result);
+                }
+            });
+            redis.set('name', result);
+        }else{
+            res.status(200).send(cached);
+        }  
+    });
+    
 });
 
 
