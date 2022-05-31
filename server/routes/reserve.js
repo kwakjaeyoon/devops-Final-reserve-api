@@ -1,5 +1,5 @@
 const express = require('express');
-const redis = require('../cache/connection');
+const { redis } = require('../cache/connection');
 const db = require('../db/connection');
 const router = express.Router();
 const es = require('../elasticsearch/index');
