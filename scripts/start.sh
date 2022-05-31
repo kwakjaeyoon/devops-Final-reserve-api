@@ -1,9 +1,13 @@
 #!/bin/bash
 cd /home/ubuntu/super-g/server
 
-# export DATABASE_USER=$(aws ssm get-parameters --region ap-northeast-2 --names DATABASE_USER --query Parameters[0].Value | sed 's/"//g')
-# export DATABASE_PASSWORD=$(aws ssm get-parameters --region ap-northeast-2 --names DATABASE_PASSWORD --query Parameters[0].Value | sed 's/"//g')
-# export DATABASE_PORT=$(aws ssm get-parameters --region ap-northeast-2 --names DATABASE_PORT --query Parameters[0].Value | sed 's/"//g')
-# export DATABASE_HOST=$(aws ssm get-parameters --region ap-northeast-2 --names DATABASE_HOST --query Parameters[0].Value | sed 's/"//g')
+source /opt/env_redis_host
+source /opt/env_db_endpoint
+source /opt/env_db_port
+source /opt/env_db_user
+source /opt/env_db_pass
+source /opt/env_db_use
+source /opt/env_server_port
+source /opt/env_notify_arn
 
 authbind --deep pm2 start app.js
