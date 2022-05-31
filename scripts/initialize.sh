@@ -1,10 +1,21 @@
 #!/bin/bash
 cd /home/ubuntu/super-g/server
+apt update
+
 apt install -y npm
+
+nvm install node
+npm cache clean --force
+npm install -g n
+n stable
+npm install -g npm
+nvm install 16.14.2
+nvm use 16.14.2
+
 npm install
 npm install pm2@latest -g
-sudo apt-get update
-sudo apt-get install authbind
-sudo touch /etc/authbind/byport/3000
-sudo chown ubuntu /etc/authbind/byport/3000
-sudo chmod 755 /etc/authbind/byport/3000
+apt install -y authbind
+touch /etc/authbind/byport/3000
+chown ubuntu /etc/authbind/byport/3000
+chmod 755 /etc/authbind/byport/3000
+
