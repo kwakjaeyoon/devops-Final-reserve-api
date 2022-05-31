@@ -1,6 +1,8 @@
 #!/bin/bash
 cd /home/ubuntu/super-g/server
 
+source /opt/env_elastic_host
+source /opt/env_elastic_pass
 source /opt/env_redis_host
 source /opt/env_db_endpoint
 source /opt/env_db_port
