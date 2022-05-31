@@ -20,8 +20,6 @@ router.post('/', function (req, res) {
         body: `create Data is failed... `
     };
 
-    //es.insertDoc('log', data);
-
     db.query(sql, function (err,result){
         if (err) {
             const resp = es.insertDoc('log', error);
@@ -36,9 +34,8 @@ router.post('/', function (req, res) {
 
 
 
-router.get('/:id', function(req, res){
-    let id = req.params.id;
-    const getCache = get_cache(id);
+router.get('/', function(req, res){
+    const getCache = get_cache('name');
     console.log(getCache);
     const data = {
         title: "Find Data",
@@ -51,7 +48,7 @@ router.get('/:id', function(req, res){
         body: `Find Data is failed...`
     }
     if(getCache === undefined || getCache === null){
-        let sql = `SELECT *FROM reserve WHERE id=${id};`;
+        let sql = `SELECT *FROM reserve;`;
         db.query(sql, function (err,result){
             if (err) {
                 const resp = es.insertDoc('log', error);
@@ -114,16 +111,6 @@ router.delete('/:id', function(req, res){
         levels: "ERROR",
         body: `Delete id=${id} is failed... `
     };
-    
-    db.query(sql, function (err,result){
-        if (err) {
-            const resp = es.insertDoc('log', error);
-            console.log(err);
-        }else{
-            console.log('update data Success!');
-            const resp =  es.insertDoc('log', data);
-        }
-    });
 });
 
 
