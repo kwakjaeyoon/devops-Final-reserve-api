@@ -33,9 +33,9 @@ app.use(
 //   }
 // });
 
-// // app.get('/', (req, res) => {
-// //   res.status(200).send('Hello World');
-// // });
+app.get('/', (req, res) => {
+  res.status(200).send('Hello World');
+});
 
 // // console.log('Hello World');
 // app.get('/status', authToken, (req, res) => {
@@ -58,6 +58,8 @@ app.use(
 //   }
 // });
 
-app.listen(port, () => {
-  console.log(`서버가 ${port}번에서 작동중입니다.`);
+const HOST="0.0.0.0";
+
+app.listen(port, HOST, () => {
+  console.log(`Running on http://${HOST}:${port}`);
 });
