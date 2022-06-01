@@ -12,4 +12,4 @@ source /opt/env_db_use
 source /opt/env_server_port
 source /opt/env_notify_arn
 
-npm start
+pm2 start npm -- start
