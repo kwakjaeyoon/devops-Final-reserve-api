@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    REACT_APP_API_URL: "api.jaemin.click"
+    REACT_APP_API_URL: "http://api.jaemin.click"
 
 phases:
   pre_build:
