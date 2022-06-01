@@ -35,7 +35,7 @@ router.post('/', function (req, res) {
 
 
 router.get('/', function(req, res){
-    redis.get('name', (err, cached) => {
+    redis.get('data', (err, cached) => {
         const data = {
             title: "Find Data",
             levels: "INFO",
@@ -57,9 +57,10 @@ router.get('/', function(req, res){
                     console.log('Find data Success!', result);
                     res.status(200).send(result);
                 }
+                redis.set('data', result);
             });
-            redis.set('name', result);
         }else{
+            const resp = es.insertDoc('log', data);
             res.status(200).send(cached);
         }  
     });

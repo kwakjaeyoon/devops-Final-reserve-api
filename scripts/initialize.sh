@@ -1,10 +1,5 @@
 #!/bin/bash
-cd /home/ubuntu/super-g/server
-apt install -y npm
+cd /home/ubuntu
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+apt install -y nodejs
 npm install
-npm install pm2@latest -g
-sudo apt-get update
-sudo apt-get install authbind
-sudo touch /etc/authbind/byport/3000
-sudo chown ubuntu /etc/authbind/byport/3000
-sudo chmod 755 /etc/authbind/byport/3000
