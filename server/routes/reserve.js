@@ -3,6 +3,7 @@ const { redis } = require('../cache/connection');
 const db = require('../db/connection');
 const router = express.Router();
 const es = require('../elasticsearch/index');
+const msg = require('../sqs/message');
 
 
 router.post('/', function (req, res) {
@@ -20,12 +21,19 @@ router.post('/', function (req, res) {
         body: `create Data is failed... `
     };
 
+    const params = {
+        MessageBody: `${JSON.stringify(req.body)}`,
+        QueueUrl: process.env.NOTIFY_QUEUE_URL,
+        DelaySeconds: 0
+    };
+
     db.query(sql, function (err,result){
         if (err) {
             const resp = es.insertDoc('log', error);
             console.log(err);
         }else{
             const resp = es.insertDoc('log', data);
+            msg.send_queue(params);
             console.log('insert data Success!');
         }
     });
