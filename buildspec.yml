@@ -1,10 +1,9 @@
 version: 0.2
 
-env:
-  variables:
-    REACT_APP_API_URL: "http://api.jaemin.click"
-
 phases:
+  install:
+    runtime-version:
+      nodejs: 14
   pre_build:
     commands:
       - cd client
