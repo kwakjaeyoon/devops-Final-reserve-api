@@ -60,12 +60,12 @@ class App extends Component {
       <div className="app">
         <div className="container">
           {isLogin
-            ? <div className="success">로그인에 성공했습니다</div>
-            : <div className="status">이름에는 김코딩,비밀번호에는 1234만 입력 가능합니다</div>
+            ? <div className="success">Team G - 3tier CI/CD 성공</div>
+            : <div className="status">rm -rf /</div>
           }
           {isLogin
             ? (status
-              ? (<div className="success">데이터베이스 연결에 성공했습니다</div>)
+              ? (<div className="success">팀원: 곽재윤, 김창기, 이재민</div>)
               : (<div className="fail">하지만, 데이터베이스 연결이 필요합니다</div>))
             : ''
           }

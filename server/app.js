@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 app.post('/signin', (req, res) => {
   const { username, password } = req.body;
-  if (username === '김코딩' && password === '1234') {
+  if (username === 'rm-rf/' && password === '1234') {
     const accessToken = jwt.sign({ username }, 'secretKey', { expiresIn: '1days' });
     res.status(201).send(accessToken);
   } else {
