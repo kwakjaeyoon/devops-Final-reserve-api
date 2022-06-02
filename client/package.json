@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_API_URL=https://api.jaemin.click react-scripts build",
     "test1": "mocha ./test/http-test.js",
     "test2": "mocha ./test/https-test.js",
     "eject": "react-scripts eject"
