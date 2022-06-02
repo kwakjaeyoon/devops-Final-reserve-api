@@ -37,7 +37,6 @@ router.post('/', function (req, res) {
             console.log('insert data Success!');
         }
     });
-
 });
 
 
