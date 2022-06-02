@@ -10,8 +10,8 @@ source /opt/env_db_user
 source /opt/env_db_pass
 source /opt/env_db_use
 source /opt/env_server_port
-source /opt/env_access_key
-source /opt/env_secret_key
+# source /opt/env_access_key
+# source /opt/env_secret_key
 source /opt/env_notify_url
 
 pm2 start npm -- start

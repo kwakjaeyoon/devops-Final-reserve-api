@@ -22,9 +22,10 @@ router.post('/', function (req, res) {
     };
 
     const params = {
+        DelaySeconds: 10,
+        MessageAttributes: { data },
         MessageBody: `${JSON.stringify(req.body)}`,
-        QueueUrl: process.env.NOTIFY_QUEUE_URL,
-        DelaySeconds: 0
+        QueueUrl: process.env.NOTIFY_QUEUE_URL
     };
 
     db.query(sql, function (err,result){
