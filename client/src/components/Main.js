@@ -16,7 +16,7 @@ class Main extends Component {
     return (
       <div className="main-container">
         <div className="session">토큰을 정상적으로 받았습니다</div>
-        <div className="db">데이터베이스 연결 상태를 확인하세요</div>
+        <div className="db">데이터베이스 연결이 정상적입니다</div>
         <button type="submit" onClick={this.handleLogout}>로그아웃</button>
       </div>
     );
