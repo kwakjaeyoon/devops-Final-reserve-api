@@ -3,8 +3,9 @@ const { redis } = require('../cache/connection');
 const db = require('../db/connection');
 const router = express.Router();
 const es = require('../elasticsearch/index');
-const msg = require('../sqs/message');
-
+// const msg = require('../sqs/message');
+const aws = require('aws-sdk');
+const sqs = new aws.SQS();
 
 router.post('/', function (req, res) {
     let obj=req.body;
@@ -21,12 +22,6 @@ router.post('/', function (req, res) {
         body: `create Data is failed... `
     };
 
-    const params = {
-        DelaySeconds: 10,
-        MessageAttributes: { data },
-        MessageBody: `${JSON.stringify(req.body)}`,
-        QueueUrl: process.env.NOTIFY_QUEUE_URL
-    };
 
     db.query(sql, function (err,result){
         if (err) {
@@ -34,7 +29,21 @@ router.post('/', function (req, res) {
             console.log(err);
         }else{
             const resp = es.insertDoc('log', data);
-            msg.send_queue(params);
+
+            const params = {
+                DelaySeconds: 10,
+                MessageAttributes: { data },
+                MessageBody: `${JSON.stringify(req.body)}`,
+                QueueUrl: process.env.NOTIFY_QUEUE_URL
+            };
+            sqs.sendMessage(params, function(err, data) {
+                if(err) {
+                    res.send(err);
+                } 
+                else {
+                    res.send(data);
+                } 
+            });
             console.log('insert data Success!');
         }
     });
@@ -70,7 +79,7 @@ router.get('/', function(req, res){
         }else{
             const resp = es.insertDoc('log', data);
             res.status(200).send(cached);
-        }  
+        }
     });
     
 });

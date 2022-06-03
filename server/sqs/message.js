@@ -1,21 +1,19 @@
-'use strict'; 
+// 'use strict'; 
 
-const aws = require('aws-sdk');
-const sqs = new aws.SQS();
-
-
-async function send_queue(params){
-    const sendList = sqs.sendMessage(params, function(err, data) {
-        if(err) {
-            res.send(err);
-        } 
-        else {
-            res.send(data);
-        } 
-    });
-}
+// const aws = require('aws-sdk');
+// const sqs = new aws.SQS();
 
 
-module.exports = send_queue(params);
+// function send_queue(params) {
+//     const sendList = sqs.sendMessage(params, function(err, data) {
+//         if(err) {
+//             res.send(err);
+//         } 
+//         else {
+//             res.send(data);
+//         } 
+//     });
+// }
 
 
+// module.exports = send_queue;
